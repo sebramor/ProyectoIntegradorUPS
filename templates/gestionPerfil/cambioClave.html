@@ -1,0 +1,234 @@
+{% include 'layout.html' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<style>
+/* Style all input fields */
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+/* Style the submit button */
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+}
+
+/* Style the container for inputs */
+.container {
+  background-color: #f1f1f1;
+  padding: 20px;
+}
+
+/* The message box is shown when the user clicks on the password field */
+#message {
+  display:none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+#message p {
+  padding: 10px 35px;
+  font-size: 18px;
+}
+
+#message2 {
+  display:none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+#message2 p {
+  padding: 10px 35px;
+  font-size: 18px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -35px;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -35px;
+  content: "✖";
+}
+</style>
+</head>
+<body>
+
+<!--MENSAJES-->
+
+<!--Desplegamos Mensaje Flash si es que hay-->
+{%with messages = get_flashed_messages(with_categories=true)%}
+<!--Verificamos si hay mensajes-->
+{%if messages%}
+  <!--Ciclo para cada mensaje-->
+  {%for category, message in messages%}
+    <div class="alert {{category}}" id="idMensajeError">
+      <!--Desplegamos mensaje-->
+      {{message}}
+    </div>
+  {%endfor%}
+{%endif%}
+{%endwith%}
+
+
+
+<h3>Cambio de contraseña </h3>
+
+<div class="container">
+  <form method="post" action="/cambiarClavePost" enctype="multipart/form-data">
+    <label for="pswAntiguo">Password Antiguo</label>
+    <input type="password" id="pswAntiguo" name="pswAntiguo" required>
+
+    <label for="psw">Password Nuevo</label>
+    <input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Tiene que contener una letra minúscula, una mayúscula, un número y al menos 8 caracteres. " required>
+
+    <label for="psw">Escribir nuevamente el Password Nuevo</label>
+    <input type="password" id="psw2" name="psw2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Tiene que ser igual al password" required>
+    
+    <input type="submit" value="Cambiar clave">
+    <a href="{{url_for("inicio")}}">Regresar</a>
+  </form>
+</div>
+
+<div id="message">
+  <h3>Password tiene que contener:</h3>
+  <p id="letter" class="invalid">Una <b>letra minúscula</b></p>
+  <p id="capital" class="invalid">Una <b>letra mayúscula</b></p>
+  <p id="number" class="invalid">Un <b>número</b></p>
+  <p id="length" class="invalid">Mínimo <b>8 caracteres</b></p>
+</div>
+
+<div id="message2">
+    <h3>Passwords iguales:</h3>
+    <p id="validarPassword2" class="invalid">Password y password de confirmación tienen que ser iguales</p>
+</div>
+				
+<script>
+var myInput = document.getElementById("psw");
+var myInput2 = document.getElementById("psw2");
+var igualPas = document.getElementById("validarPassword2");
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var length = document.getElementById("length");
+
+
+
+// When the user clicks on the password field, show the message box
+myInput.onfocus = function() {
+  document.getElementById("message").style.display = "block";
+}
+
+// When the user clicks outside of the password field, hide the message box
+myInput.onblur = function() {
+  document.getElementById("message").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+myInput.onkeyup = function() {
+  // Validate lowercase letters
+  var lowerCaseLetters = /[a-z]/g;
+  if(myInput.value.match(lowerCaseLetters)) {  
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+  }
+  
+  // Validate capital letters
+  var upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {  
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }
+
+  // Validate numbers
+  var numbers = /[0-9]/g;
+  if(myInput.value.match(numbers)) {  
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+  
+  // Validate length
+  if(myInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+  }
+}
+
+
+//parte de confirmacion password
+//When the user click on the confirmation password field, show the message box
+myInput2.onfocus = function() {
+  document.getElementById("message2").style.display = "block";
+}
+
+// When the user clicks outside of the password confirmation field, hide the message box
+myInput2.onblur = function() {
+  document.getElementById("message2").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+myInput2.onkeyup = function() {
+  // Validate lowercase letters
+  console.log(myInput.value)
+  console.log(myInput2.value)
+  if(myInput.value==myInput2.value){
+    igualPas.classList.remove("invalid");
+    igualPas.classList.add("valid");
+  }else{
+    igualPas.classList.remove("valid");
+    igualPas.classList.add("invalid");
+  }
+}
+
+
+
+</script>
+
+
+
+
+
+{% include 'footer.html' %}

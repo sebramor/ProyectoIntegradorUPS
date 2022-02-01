@@ -1,0 +1,165 @@
+{% extends 'layout.html' %}
+{% block body%}
+
+
+<!--Campos a llenar-->
+<form method="post" action="/enviarSolicitud" enctype="multipart/form-data">
+    
+
+        <!--Parte para el ingreso del historial clinico y el nombre del doctor responsable-->
+        <div class="form-group">
+            <label for="txtHistorialClinico">Ingresar historial clínico:</label>
+            <input id="txtHistorialClinico" class="form-control" type="text" name="txtHistorialClinico" required>
+        </div>
+
+        <div class="form-group">
+            <label for="txtNombreDoctor">Ingresar nombre del doctor responsable:</label>
+            <input id="txtNombreDoctor" class="form-control" type="text" name="txtNombreDoctor" required>
+        </div>         
+    
+    
+<!--Parte de la lista que se selecciona-->
+    <div>
+        
+        <h3>Receta médica:</h3>
+        {% if 'listaMedicamentos' in session %}
+
+            <table class="table table-success">
+                
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for codigo,contenido in session['listaMedicamentos'].items() %}
+                    <tr>
+                        <td>{{contenido[0]}} </td>
+                        <td>{{contenido[1]}}</td>
+                            
+                            <td>
+                                <a href="/eliminarMedicamentoLista/{{codigo}}" class="btn btn-danger">
+                                    Eliminar
+                                </a>
+                            </td>
+                        
+                    </tr>    
+                    
+                    
+                {% endfor %}
+                </tbody>
+            </table>
+        
+        {% else: %}
+            <div class="no-records"> 
+                Seleccionar medicamentos para la solicitud de medicamentos
+            </div>
+        {% endif %}
+
+    </div>
+    
+        
+<!--BOTON ENVIAR solicitud y regresar-->
+        <div class="form-group">
+            <input type="submit" value="Enviar Solicitud" class="btn btn-success">
+            <a href="{{url_for("inicio")}}" class="btn btn-danger">Regresar</a>
+        </div>
+
+
+    
+</form>
+
+<!--Desplegamos Mensaje Flash si es que hay-->
+{%with messages = get_flashed_messages(with_categories=true)%}
+<!--Verificamos si hay mensajes-->
+{%if messages%}
+  <!--Ciclo para cada mensaje-->
+  {%for category, message in messages%}
+    <div class="{{category}}" id="idMensajeError">
+      <!--Desplegamos mensaje-->
+      <h4>{{message}}</h4>
+    </div>
+  {%endfor%}
+{%endif%}
+{%endwith%}
+ 
+
+<hr>
+<h3>Productos</h3>
+<!--BUSCAR MEDICAMENTOS-->
+<form method="post" action="/buscarMedicamentoNombre" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="txtNombre">Buscar medicamento por nombre:</label>
+        <input id="txtNombre" class="form-control" type="text" name="txtNombre">
+        <input type="submit" value="Buscar" class="btn btn-primary">
+        <a href="{{url_for("realizarSolicitud")}}" class="btn btn-secondary">Recargar</a>
+    </div>
+</form>
+<!--SI EXISTEN PRODUCTOS APARECEN-->
+{% if medicamentos %}
+
+    <table class="table table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>Nombre</th>
+                <th>Stock</th>
+                <th>Recomendar <br> producto <br> similar</th>
+                <th>Cantidad</th>
+                <th>Agregar</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicamento in medicamentos %}
+            
+            <tr>
+                <td>
+                    <a href="/verProductoMedico/{{medicamento[0]}}" class="" target="_blank">
+                        {{medicamento[1]}}
+                    </a> 
+                </td>
+                <td>{{medicamento[2]}}</td>
+                
+
+
+                <td>
+                    <a href="/buscarMedicamento/{{medicamento[3]}}" class="btn btn-warning">
+                        Recomendar
+                    </a> 
+                </td>
+                <td> 
+                    <!--Ingresar Cantidad-->
+                    <form method="post" action="/addMedicamentoLista" enctype="multipart/form-data">
+                        <input id="txtCantidad" class="form-control" type="number" required
+                        name="txtCantidad" min="1" max="{{medicamento[2]}}"> 
+                </td>
+                <td>
+                    <!--Boton de agregar-->
+                   
+                        <input type="hidden" name="codeMedicamento" value="{{medicamento[0]}}">
+                        <input type="submit" value="Agregar" class="btn btn-success">
+                    </form>
+                </td>
+                
+            </tr>
+            {% endfor %}
+             
+        </tbody>
+    </table>
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+{% block body%}
+
+{% if cabecera_solicitud %}
+    
+    <h4>Id de la Petición: {{id}}</h4>
+    <h5>Historial clínico: {{cabecera_solicitud[0]}}</h5>
+    <h5>Nombre del doctor responsable: {{cabecera_solicitud[1]}}</h5>
+
+    {% if detalle_solicitud %}
+    <table class="table table-light">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for peticion in detalle_solicitud %}
+               
+                     <tr class="table-primary">
+                        <td>{{peticion[0]}}</td>
+                        <td>{{peticion[1]}}</td>
+                    </tr> 
+    
+                   
+            {% endfor %}
+            
+        
+        </tbody>
+    </table>
+    {% endif %}
+
+{% endif %}
+
+
+<a href="{{url_for("verListaSolicitudes")}}" class="btn btn-secondary">
+    Ver lista de solicitudes
+</a>
+
+
+{% endblock %}

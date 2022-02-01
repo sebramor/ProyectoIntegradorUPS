@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+{% block body%}
+
+{% if cabecera_solicitud %}
+    
+    <h5>Id de la Petición: {{id}}</h5>
+    <p><strong>Historial clínico: </strong>{{cabecera_solicitud[0]}}</p>
+    <p><strong>Nombre del doctor responsable: </strong>{{cabecera_solicitud[1]}}</p>
+    <p><strong>Nombre enfermer@: </strong>{{cabecera_solicitud[2]}}</p>
+
+    {% if detalle_solicitud %}
+    <table class="table table-light">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for peticion in detalle_solicitud %}
+               
+                     <tr class="table-primary">
+                        <td>{{peticion[0]}}</td>
+                        <td>{{peticion[1]}}</td>
+                    </tr> 
+    
+                   
+            {% endfor %} 
+            
+        
+        </tbody>
+    </table>
+    {% endif %}
+
+    <!--Estado solicitud 1-> solicitud para registrar-->
+    {% if cabecera_solicitud[3]==1 %}
+        <form method="post" action="/cambiarEstadoSolicitud_2" enctype="multipart/form-data">
+            <input type="hidden" value="{{id}}" name="txtIdSolicitud" id="txtIdSolicitud">
+            <div class="form-group">
+                <input onclick="return confirm('¿La solicitud está registrada?')" 
+                type="submit" value="Solicitud lista" class="btn btn-success">
+                <br>
+                <a href="{{url_for("peticionesRegistrar")}}" class="btn btn-secondary">
+                    Ver lista de solicitudes para registrar
+                </a>
+            </div>
+        </form>
+
+        
+
+        <!--Estado solicitud 2->solicitud para que retiren -->
+    {% elif cabecera_solicitud[3]==2 %}
+        <a href="{{url_for("peticionesEntregar")}}" class="btn btn-secondary">
+            Ver lista de solicitudes por entregar a enfermer@s
+        </a>
+    {% endif %}
+
+{% endif %}
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+{% block body%}
+
+
+<!--Desplegamos Mensaje Flash si es que hay-->
+{%with messages = get_flashed_messages(with_categories=true)%}
+<!--Verificamos si hay mensajes-->
+{%if messages%}
+  <!--Ciclo para cada mensaje-->
+  {%for category, message in messages%}
+    <div class="{{category}}" id="idMensajeError">
+      <!--Desplegamos mensaje-->
+      <h4>{{message}}</h4>
+    </div>
+  {%endfor%}
+{%endif%}
+{%endwith%}
+
+
+
+<!--SI EXISTEN PRODUCTOS APARECEN-->
+{% if peticiones %}
+
+    <table class="table table-light">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id Petición</th>
+                <th>Historial clínico <br>del paciente</th>
+                <th>Ver Petición</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for peticion in peticiones %}
+            <!--Estado 1-> Peticion enviada; 2->Peticion lista para retirar de farmacia-->
+                
+                {% if peticion[2] == 1 %}     
+                     <tr class="table-primary">
+                        <th scope="row">{{peticion[0]}}</th>
+                        <td>{{peticion[1]}}</td>
+                        <td>
+                            <a href="/verPeticionF/{{peticion[0]}}" class="btn btn-secondary">
+                                Ver
+                            </a> 
+                        </td>
+                    </tr> 
+
+                {% endif %}
+                
+                   
+            {% endfor %}
+            
+        
+        </tbody>
+    </table>
+
+{% else: %}
+            <div class="no-records"> 
+                <h5>No existen solicitudes pendientes</h5>
+            </div>
+{% endif %}
+
+
+
+
+{% endblock %}

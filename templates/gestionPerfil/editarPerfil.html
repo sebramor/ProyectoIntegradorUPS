@@ -1,0 +1,63 @@
+{% include 'layout.html' %}
+
+
+{% for empleado in empleados %} 
+    
+    
+    <form method="post" action="/editarPerfilPost" enctype="multipart/form-data">
+        
+        <div class="card">
+            <div class="card-header">
+                Editar perfil
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Datos de su perfil</h5>
+                <p class="card-text">
+
+                   
+
+                    <!--AL ID SE LE ESCONDE
+                    con el atributo
+                    type="hidden"-->
+                    <input type="hidden" value="{{empleado[0]}}" name="txtCorreo" id="txtCorreo">
+                    
+                    <div class="form-group">
+                        <label for="txtCedula">Cédula:</label>
+                        <input id="txtCedula" value="{{empleado[1]}}" class="form-control" type="text" name="txtCedula">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtNombre">Nombre:</label>
+                        <input id="txtNombre" value="{{empleado[2]}}" class="form-control" type="text" name="txtNombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtCiudad">Ciudad:</label>
+                        <input id="txtCiudad" value="{{empleado[3]}}" class="form-control" type="text" name="txtCiudad">
+                    </div>
+
+                    {% if historial_clinico %}
+                        <div class="form-group">
+                            <label for="txtHistorialClinico">Historial clínico:</label>
+                            <input id="txtHistorialClinico" value="{{historial_clinico[0]}}" class="form-control" type="text" name="txtHistorialClinico">
+                        </div>
+                    {% endif %}
+                    
+                    
+                    <div class="form-group">
+                        <input type="submit" value="Editar" class="btn btn-success">
+                        <a href="{{url_for("inicio")}}" class="btn btn-primary">Regresar</a>
+                    </div>
+                
+            
+
+                </p>
+            </div>
+        </div>
+        
+    </form>
+
+
+{% endfor %}
+
+{% include 'footer.html' %}

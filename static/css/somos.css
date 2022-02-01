@@ -1,0 +1,147 @@
+*{
+	margin:0; 
+	padding:0; 
+}
+.ancho-info{
+    margin-top: 22px;
+}
+.encabezado{
+	margin:auto;
+	text-align: center;
+    padding-top: 30px;
+}
+
+.encabezado h1{
+	 font-family: Raleway;
+	 color:#cf1b1b;
+}
+
+.encabezado p{
+	padding: 15px;
+	text-align: center;
+    padding-top: 15px;
+    font-family: Raleway;
+}
+
+
+.columna-informacion1
+{
+	background-color: #94d3ac;
+	width:50%;
+	margin:auto;
+	float:left;
+	box-sizing: border-box;
+	
+}
+
+.columna-informacion1 h1
+{
+	text-align: center;
+	font-family: Raleway;
+}
+
+.columna-informacion1 p
+{
+	padding-left: 15px;
+	font-family: Raleway;
+}
+
+
+
+.columna-informacion2
+{
+	background-color: #655c56;
+	width:50%; 
+	margin:auto; 
+	float:right;
+	box-sizing: border-box;
+}
+
+.columna-informacion2 h1
+{
+	text-align: center;
+	font-family: Raleway;
+}
+
+.columna-informacion2 p
+{
+	padding-left: 15px;
+	font-family: Raleway;
+}
+
+
+.equipodetrabajo{
+	margin:auto;
+	text-align: center;
+	padding-top: 12px;
+	width: 100%;
+}
+
+
+.equipodetrabajo h1{
+	padding-bottom: 12px;
+	font-family: Raleway;
+
+}
+
+.equipodetrabajo h4, p{
+	font-family: Raleway;
+}
+
+.equipodetrabajo img{
+	padding:center;
+	width: 100%;
+}
+
+.equipodetrabajo .imagen1{
+	width: 25%;
+	margin:auto;
+	float:left;
+	box-sizing: border-box;
+	background-color:#ccedd2;
+	padding-top:5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+
+.equipodetrabajo .imagen2{
+	width: 25%;
+	margin:auto;
+	float:left;
+	box-sizing: border-box;
+	background-color:#ccedd2;
+	padding-top:5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.equipodetrabajo .imagen3{
+	width: 25%;
+	margin:auto;
+	float:left;
+	box-sizing: border-box;
+	background-color:#ccedd2;
+	padding-top:5px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.equipodetrabajo .imagen4{
+	width: 25%;
+	margin:auto;
+	float:left;
+	box-sizing: border-box;
+	background-color:#ccedd2;
+	padding-top:5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	
+}
+
+
+@font-face
+{
+	font-family:Raleway;
+	src:url(fuentes/Raleway-Regular.ttf);
+}

@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block body%}
+
+
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+      <h5 class="card-title">{{producto[0]}}</h5>
+      <p class="card-text">{{producto[1]}}</p>
+    </div>
+</div>
+
+<hr>
+
+
+{% if medicamentos %}
+<h4>Productos Similares</h4>
+    <table class="table table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicamento in medicamentos %}
+            
+            <tr>
+                <td>
+                    <a href="/verProductoMedico/{{medicamento[0]}}" class="">
+                        {{medicamento[1]}}
+                    </a> 
+                </td>
+                <td>{{medicamento[2]}}</td>
+                
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+{% endif %}
+
+
+
+{% endblock %}

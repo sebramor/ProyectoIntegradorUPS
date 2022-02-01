@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+{% block body%}
+
+
+<!--Se reciben los mensajes de flash
+que se envio en app.py-->
+<!--Aqui se reciben todos los mensajes de flash-->
+{% with messages= get_flashed_messages() %}
+
+<!--Si existen mensajes-->
+{% if messages %}
+    <div class="alert alert-warning" role="alert">
+    <!--Se muestran los mensajes que vienen
+    con el for mensaje por mensaje
+    se pueden enviar varios mensajes con 
+    flash()-->
+        {%  for message in messages %}
+            {{message}}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endwith %}
+
+
+
+
+
+<hr>
+<form method="post" action="/buscarEmpleado" enctype="multipart/form-data">
+<div class="form-group">
+    <label for="txtNombre">Buscar empleado por nombre:</label>
+    <input id="txtNombre" class="form-control" type="text" name="txtNombre">
+    <input type="submit" value="Buscar" class="btn btn-primary">
+</div>
+</form>
+<hr>
+
+
+<!--SI EXISTEN EMPLEADOS APARECEN-->
+{% if empleados %}
+
+    <table class="table table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>Correo</th>
+                <th>Cedula</th>
+                <th>Nombre</th>
+                <th>Ciudad</th>
+                <th>Tipo Usuario</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for empleado in empleados %}
+            <tr>
+                <td>
+                    {{empleado[0]}}
+                    <br>
+                    <a href="/edit/{{empleado[0]}}" class="btn btn-warning">
+                        Editar
+                    </a> 
+                    
+                    <!--Agregar la parte del mensaje
+                    Que si desea borrar seguro con onclick
+                    return confirm('Mensaje')-->
+                    <a onclick="return confirm('¿Desea borrar al empleado?')" href="/destroy/{{empleado[0]}}" class="btn btn-danger">
+                        Eliminar
+                    </a>  
+
+                </td>
+                <td>{{empleado[1]}}</td>
+                <td>{{empleado[2]}}</td>
+                <td>{{empleado[3]}}</td>
+                <td>{{empleado[4]}}</td>
+                
+
+
+                
+            </tr>    
+            {% endfor %}
+            
+        
+        </tbody>
+    </table>
+
+    {% endif %}
+
+
+
+{% endblock %}
